@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Contraparte oscura de values/themes.xml. Se activa automáticamente
+         cuando el sistema está en modo oscuro. -->
+    <style name="Theme.Habitus" parent="android:Theme.Material.NoActionBar" />
+</resources>

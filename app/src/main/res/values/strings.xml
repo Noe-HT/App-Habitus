@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Habitus</string>
+
+    <!-- Navegación inferior -->
+    <string name="nav_home">Inicio</string>
+    <string name="nav_add">Añadir</string>
+    <string name="nav_progress">Progreso</string>
+
+    <!-- Acciones genéricas -->
+    <string name="action_delete">Eliminar</string>
+    <string name="action_cancel">Cancelar</string>
+    <string name="action_edit">✏️ Editar</string>
+    <string name="action_back">Volver</string>
+    <string name="action_complete">Completar</string>
+    <string name="action_completed">✓ Completado</string>
+    <string name="loading_generic">Cargando…</string>
+
+    <!-- Pantalla de inicio -->
+    <string name="home_title">Mis Hábitos</string>
+    <string name="home_today_prefix">Hoy, %1$s</string>
+    <string name="delete_habit_title">Eliminar hábito</string>
+    <string name="delete_habit_confirm">¿Estás seguro de que quieres eliminar \"%1$s\"? Esta acción no se puede deshacer.</string>
+    <string name="empty_state_title">No tienes hábitos aún</string>
+    <string name="empty_state_subtitle">Crea tu primer hábito para empezar.</string>
+
+    <!-- Formulario de hábito -->
+    <string name="add_habit_title_new">Nuevo Hábito</string>
+    <string name="add_habit_title_edit">Editar Hábito</string>
+    <string name="label_habit_name">Nombre del hábito</string>
+    <string name="label_description">Descripción</string>
+    <string name="label_icon">Icono</string>
+    <string name="label_duration">Duración</string>
+    <string name="label_hours">Horas</string>
+    <string name="label_minutes">Minutos</string>
+    <string name="label_color">Color</string>
+    <string name="label_reminder_time">Hora del recordatorio</string>
+    <string name="select_time">Selecciona una hora</string>
+    <string name="error_habit_name_required">Escribe un nombre para el hábito</string>
+    <string name="msg_habit_added">Hábito añadido</string>
+    <string name="msg_habit_updated">Hábito actualizado</string>
+    <string name="action_create_habit">Crear Hábito</string>
+    <string name="action_save_changes">Guardar cambios</string>
+
+    <!-- Detalle de hábito -->
+    <string name="detail_title">📱 Detalles del Hábito</string>
+    <string name="label_stats">Estadísticas</string>
+    <string name="label_completed_pct">Completado</string>
+    <string name="label_total_days">Días totales</string>
+    <string name="label_reminder">Recordatorio</string>
+    <string name="reminder_display">⏰ %1$s</string>
+    <string name="duration_hours_minutes">%1$d h %2$d min</string>
+    <string name="duration_hours">%1$d h</string>
+    <string name="duration_minutes">%1$d min</string>
+    <string name="duration_label_value">%1$s: %2$s</string>
+    <string name="habit_name_with_icon">%1$s %2$s</string>
+
+    <!-- Estadísticas -->
+    <string name="stats_title">Estadísticas</string>
+    <string name="stats_today">Hoy</string>
+    <string name="stats_completed">Completados</string>
+    <string name="stats_daily_average">Promedio diario</string>
+    <string name="stats_achieved_today">Logrado hoy</string>
+    <string name="stats_completed_of_total">%1$d de %2$d completados</string>
+    <string name="stats_habits_completed_today">Hábitos completados hoy</string>
+    <string name="stats_no_habit_completed_yet">Todavía no has completado ningún hábito hoy.</string>
+    <string name="stats_no_habits_yet">Aún no tienes hábitos</string>
+
+    <!-- Notificaciones -->
+    <string name="default_habit_name">Tu hábito</string>
+    <string name="notification_channel_name">Recordatorios de hábitos</string>
+    <string name="notification_channel_desc">Notificaciones diarias de tus hábitos</string>
+    <string name="notification_title">Recordatorio de hábito</string>
+    <string name="notification_text">Es hora de completar: %1$s</string>
+
+    <!-- Plurales: racha (con prefijo, para la pantalla de detalle) -->
+    <plurals name="streak_days">
+        <item quantity="one">Racha: %d día</item>
+        <item quantity="other">Racha: %d días</item>
+    </plurals>
+
+    <!-- Plurales: racha (badge corto de la tarjeta, con rayo) -->
+    <plurals name="streak_badge">
+        <item quantity="one">⚡ %d día</item>
+        <item quantity="other">⚡ %d días</item>
+    </plurals>
+</resources>

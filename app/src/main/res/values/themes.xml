@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tema base en modo claro. Su contraparte en modo oscuro está en
+         values-night/themes.xml. -->
+    <style name="Theme.Habitus" parent="android:Theme.Material.Light.NoActionBar" />
+</resources>

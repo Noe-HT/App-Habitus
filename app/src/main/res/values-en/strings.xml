@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Habitus</string>
+
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_add">Add</string>
+    <string name="nav_progress">Progress</string>
+
+    <!-- Generic actions -->
+    <string name="action_delete">Delete</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_edit">✏️ Edit</string>
+    <string name="action_back">Back</string>
+    <string name="action_complete">Complete</string>
+    <string name="action_completed">✓ Completed</string>
+    <string name="loading_generic">Loading…</string>
+
+    <!-- Home screen -->
+    <string name="home_title">My Habits</string>
+    <string name="home_today_prefix">Today, %1$s</string>
+    <string name="delete_habit_title">Delete habit</string>
+    <string name="delete_habit_confirm">Are you sure you want to delete \"%1$s\"? This action cannot be undone.</string>
+    <string name="empty_state_title">You have no habits yet</string>
+    <string name="empty_state_subtitle">Create your first habit to get started.</string>
+
+    <!-- Habit form -->
+    <string name="add_habit_title_new">New Habit</string>
+    <string name="add_habit_title_edit">Edit Habit</string>
+    <string name="label_habit_name">Habit name</string>
+    <string name="label_description">Description</string>
+    <string name="label_icon">Icon</string>
+    <string name="label_duration">Duration</string>
+    <string name="label_hours">Hours</string>
+    <string name="label_minutes">Minutes</string>
+    <string name="label_color">Color</string>
+    <string name="label_reminder_time">Reminder time</string>
+    <string name="select_time">Select a time</string>
+    <string name="error_habit_name_required">Enter a name for the habit</string>
+    <string name="msg_habit_added">Habit added</string>
+    <string name="msg_habit_updated">Habit updated</string>
+    <string name="action_create_habit">Create Habit</string>
+    <string name="action_save_changes">Save changes</string>
+
+    <!-- Habit detail -->
+    <string name="detail_title">📱 Habit Details</string>
+    <string name="label_stats">Statistics</string>
+    <string name="label_completed_pct">Completed</string>
+    <string name="label_total_days">Total days</string>
+    <string name="label_reminder">Reminder</string>
+    <string name="reminder_display">⏰ %1$s</string>
+    <string name="duration_hours_minutes">%1$dh %2$dm</string>
+    <string name="duration_hours">%1$dh</string>
+    <string name="duration_minutes">%1$dm</string>
+    <string name="duration_label_value">%1$s: %2$s</string>
+    <string name="habit_name_with_icon">%1$s %2$s</string>
+
+    <!-- Stats screen -->
+    <string name="stats_title">Statistics</string>
+    <string name="stats_today">Today</string>
+    <string name="stats_completed">Completed</string>
+    <string name="stats_daily_average">Daily average</string>
+    <string name="stats_achieved_today">Achieved today</string>
+    <string name="stats_completed_of_total">%1$d of %2$d completed</string>
+    <string name="stats_habits_completed_today">Habits completed today</string>
+    <string name="stats_no_habit_completed_yet">You haven\'t completed any habit yet today.</string>
+    <string name="stats_no_habits_yet">You don\'t have any habits yet</string>
+
+    <!-- Notifications -->
+    <string name="default_habit_name">Your habit</string>
+    <string name="notification_channel_name">Habit reminders</string>
+    <string name="notification_channel_desc">Daily notifications for your habits</string>
+    <string name="notification_title">Habit reminder</string>
+    <string name="notification_text">Time to complete: %1$s</string>
+
+    <!-- Plurals: streak (with prefix, detail screen) -->
+    <plurals name="streak_days">
+        <item quantity="one">Streak: %d day</item>
+        <item quantity="other">Streak: %d days</item>
+    </plurals>
+
+    <!-- Plurals: streak (short badge with lightning bolt) -->
+    <plurals name="streak_badge">
+        <item quantity="one">⚡ %d day</item>
+        <item quantity="other">⚡ %d days</item>
+    </plurals>
+</resources>

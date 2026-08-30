@@ -1,5 +1,6 @@
 package com.app.habitus.ui.components
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,14 +13,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
-import com.app.habitus.ui.theme.GreenHabit
+import com.app.habitus.ui.theme.Radius
+import com.app.habitus.ui.theme.Spacing
+import com.app.habitus.ui.theme.Spark
 
 @Composable
 fun ProgressChart(
@@ -28,16 +33,20 @@ fun ProgressChart(
     subtitle: String = "Tu progreso de esta semana",
     modifier: Modifier = Modifier
 ) {
-    val trackColor = MaterialTheme.colorScheme.outline
+    val trackColor = MaterialTheme.colorScheme.outline.copy(alpha = 0.4f)
     val cardColor = MaterialTheme.colorScheme.surface
     val primaryTextColor = MaterialTheme.colorScheme.onSurface
     val secondaryTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+    val brandStart = MaterialTheme.colorScheme.primary
+    val brandEnd = Spark
+
+    val animatedProgress by animateFloatAsState(targetValue = progress, label = "progressChart")
 
     Box(
         modifier = modifier
             .fillMaxWidth()
-            .background(cardColor, RoundedCornerShape(14.dp))
-            .padding(horizontal = 18.dp, vertical = 18.dp),
+            .background(cardColor, RoundedCornerShape(Radius.lg))
+            .padding(Spacing.xl),
         contentAlignment = Alignment.Center
     ) {
         Column(
@@ -45,16 +54,17 @@ fun ProgressChart(
             verticalArrangement = Arrangement.Center
         ) {
             Box(
-                modifier = Modifier.size(156.dp),
+                modifier = Modifier.size(172.dp),
                 contentAlignment = Alignment.Center
             ) {
-                Canvas(modifier = Modifier.size(156.dp)) {
-                    val strokeWidth = 12.dp.toPx()
+                Canvas(modifier = Modifier.size(172.dp)) {
+                    val strokeWidth = 14.dp.toPx()
                     val diameter = size.minDimension - strokeWidth
                     val topLeft = Offset(
                         (size.width - diameter) / 2,
                         (size.height - diameter) / 2
                     )
+                    val arcSize = Size(diameter, diameter)
 
                     drawArc(
                         color = trackColor,
@@ -62,40 +72,35 @@ fun ProgressChart(
                         sweepAngle = 360f,
                         useCenter = false,
                         topLeft = topLeft,
-                        size = Size(diameter, diameter),
-                        style = Stroke(
-                            width = strokeWidth,
-                            cap = StrokeCap.Round
-                        )
+                        size = arcSize,
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                     )
 
+                    // Trazo con degradado de marca (verde → cálido): un
+                    // detalle sutil de "premium" que además comunica
+                    // progreso — cuanto más se completa, más cálido se ve.
                     drawArc(
-                        color = GreenHabit,
+                        brush = Brush.sweepGradient(listOf(brandStart, brandEnd, brandStart)),
                         startAngle = -90f,
-                        sweepAngle = 360f * progress,
+                        sweepAngle = 360f * animatedProgress,
                         useCenter = false,
                         topLeft = topLeft,
-                        size = Size(diameter, diameter),
-                        style = Stroke(
-                            width = strokeWidth,
-                            cap = StrokeCap.Round
-                        )
+                        size = arcSize,
+                        style = Stroke(width = strokeWidth, cap = StrokeCap.Round)
                     )
                 }
 
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = "${(progress * 100).toInt()}%",
-                        style = MaterialTheme.typography.headlineMedium,
+                        style = MaterialTheme.typography.displaySmall,
                         color = primaryTextColor
                     )
                     Text(
                         text = label,
                         style = MaterialTheme.typography.labelMedium,
                         color = secondaryTextColor,
-                        modifier = Modifier.padding(top = 4.dp)
+                        modifier = Modifier.padding(top = 2.dp)
                     )
                 }
             }
@@ -104,7 +109,7 @@ fun ProgressChart(
                 text = subtitle,
                 style = MaterialTheme.typography.bodySmall,
                 color = secondaryTextColor,
-                modifier = Modifier.padding(top = 16.dp)
+                modifier = Modifier.padding(top = Spacing.lg)
             )
         }
     }

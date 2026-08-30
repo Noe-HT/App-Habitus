@@ -18,22 +18,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.app.habitus.R
 import com.app.habitus.ui.components.ProgressChart
+import com.app.habitus.ui.theme.Radius
+import com.app.habitus.ui.theme.Spacing
 import com.app.habitus.viewmodel.HabitViewModel
-import androidx.compose.ui.graphics.Color
-
 
 @Composable
 fun StatsScreen(
     viewModel: HabitViewModel = viewModel()
 ) {
     val habits = viewModel.allHabits.observeAsState(emptyList())
-    val habitPercentages = viewModel.habitPercentages.observeAsState(emptyMap())
     val completionState = viewModel.habitCompletionState.observeAsState(emptyMap())
 
     LaunchedEffect(habits.value) {
@@ -61,35 +61,34 @@ fun StatsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(paddingValues)
-                .padding(16.dp)
+                .padding(Spacing.lg)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
+            verticalArrangement = Arrangement.spacedBy(Spacing.lg)
         ) {
-            // Título
             Text(
                 text = stringResource(R.string.stats_title),
                 style = MaterialTheme.typography.headlineLarge,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            // Mini cards con stats principales
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
+                horizontalArrangement = Arrangement.spacedBy(Spacing.md)
             ) {
                 MiniStatCard(
+                    icon = "📊",
                     title = stringResource(R.string.stats_today),
                     value = "$overallProgress%",
                     modifier = Modifier.weight(1f)
                 )
                 MiniStatCard(
+                    icon = "✅",
                     title = stringResource(R.string.stats_completed),
                     value = "$completedTodayCount/$totalHabits",
                     modifier = Modifier.weight(1f)
                 )
             }
 
-            // Sección de progreso semanal
             Text(
                 text = stringResource(R.string.stats_daily_average),
                 style = MaterialTheme.typography.titleSmall,
@@ -102,7 +101,6 @@ fun StatsScreen(
                 subtitle = stringResource(R.string.stats_completed_of_total, completedTodayCount, totalHabits)
             )
 
-            // Sección de top hábitos
             if (habits.value.isNotEmpty()) {
                 Text(
                     text = stringResource(R.string.stats_habits_completed_today),
@@ -110,7 +108,6 @@ fun StatsScreen(
                     color = MaterialTheme.colorScheme.onSurface
                 )
 
-                // Ordenar hábitos por porcentaje de completitud
                 val completedHabits = habits.value.filter { habit ->
                     completionState.value[habit.id] == true
                 }
@@ -122,24 +119,20 @@ fun StatsScreen(
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 } else {
-                    completedHabits
-                        .take(3)
-                        .forEach { habit ->
-                            TopHabitItem(
-                                habitName = habit.name,
-                                habitIcon = habit.icon
-                            )
+                    Column(verticalArrangement = Arrangement.spacedBy(Spacing.sm)) {
+                        completedHabits.take(3).forEach { habit ->
+                            TopHabitItem(habitName = habit.name, habitIcon = habit.icon)
                         }
+                    }
                 }
             }
 
-            // Mensaje cuando no hay hábitos
             if (habits.value.isEmpty()) {
                 Text(
                     text = stringResource(R.string.stats_no_habits_yet),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(vertical = 20.dp)
+                    modifier = Modifier.padding(vertical = Spacing.xl)
                 )
             }
         }
@@ -148,26 +141,29 @@ fun StatsScreen(
 
 @Composable
 private fun MiniStatCard(
+    icon: String,
     title: String,
     value: String,
     modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
-            .padding(horizontal = 14.dp, vertical = 14.dp)
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Radius.md))
+            .padding(Spacing.lg)
     ) {
         Column {
+            Text(text = icon, style = MaterialTheme.typography.titleMedium)
             Text(
                 text = title,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = Spacing.xs)
             )
             Text(
                 text = value,
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineMedium,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(top = 4.dp)
+                modifier = Modifier.padding(top = 2.dp)
             )
         }
     }
@@ -181,21 +177,17 @@ private fun TopHabitItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(12.dp))
-            .padding(horizontal = 14.dp, vertical = 14.dp),
+            .background(MaterialTheme.colorScheme.surface, RoundedCornerShape(Radius.md))
+            .padding(horizontal = Spacing.lg, vertical = Spacing.md),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Row(
             modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalAlignment = androidx.compose.ui.Alignment.CenterVertically
+            horizontalArrangement = Arrangement.spacedBy(Spacing.sm),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Text(
-                text = habitIcon,
-                style = MaterialTheme.typography.titleSmall
-            )
-
+            Text(text = habitIcon, style = MaterialTheme.typography.titleMedium)
             Text(
                 text = habitName,
                 style = MaterialTheme.typography.titleSmall,
@@ -206,7 +198,7 @@ private fun TopHabitItem(
         Text(
             text = "✓",
             style = MaterialTheme.typography.titleMedium,
-            color = Color(0xFF17B37C)
+            color = MaterialTheme.colorScheme.primary
         )
     }
 }

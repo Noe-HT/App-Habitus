@@ -1,22 +1,30 @@
 package com.app.habitus.ui.screens
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material.icons.Icons
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +34,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -33,6 +42,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.app.habitus.R
 import com.app.habitus.data.models.Habit
 import com.app.habitus.ui.components.HabitCard
+import com.app.habitus.ui.theme.Radius
+import com.app.habitus.ui.theme.Spacing
 import com.app.habitus.viewmodel.HabitViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -99,15 +110,20 @@ fun HomeScreen(
         )
     }
 
+    val completedToday = habits.value.count { completionState.value[it.id] == true }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = 12.dp, vertical = 14.dp)
+            .padding(horizontal = Spacing.lg, vertical = Spacing.lg)
     ) {
-        HeaderSection()
+        HeaderSection(
+            totalHabits = habits.value.size,
+            completedToday = completedToday
+        )
 
         if (habits.value.isEmpty()) {
-            EmptyState()
+            EmptyState(onAddHabitClick = onAddHabitClick)
         } else {
             LazyColumn(
                 modifier = Modifier.fillMaxWidth(),
@@ -115,7 +131,7 @@ fun HomeScreen(
                 // reserva el padding del Scaffold aplicado en NavGraph;
                 // aquí solo dejamos un pequeño margen extra de scroll.
                 contentPadding = PaddingValues(bottom = 16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 items(
                     items = habits.value,
@@ -139,7 +155,7 @@ fun HomeScreen(
 }
 
 @Composable
-private fun HeaderSection() {
+private fun HeaderSection(totalHabits: Int, completedToday: Int) {
     val locale = Locale.getDefault()
 
     // El reloj se mantiene aislado en su propio composable: solo este bloque
@@ -156,7 +172,7 @@ private fun HeaderSection() {
 
     Text(
         text = stringResource(R.string.home_title),
-        style = MaterialTheme.typography.headlineSmall,
+        style = MaterialTheme.typography.headlineLarge,
         color = MaterialTheme.colorScheme.onSurface
     )
 
@@ -169,40 +185,121 @@ private fun HeaderSection() {
         text = stringResource(R.string.home_today_prefix, displayDate),
         style = MaterialTheme.typography.bodyMedium,
         color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(top = 2.dp)
+        modifier = Modifier.padding(top = 2.dp, bottom = Spacing.lg)
     )
 
-    Text(
-        text = SimpleDateFormat("HH:mm", locale).format(currentDateTime),
-        style = MaterialTheme.typography.bodySmall,
-        color = MaterialTheme.colorScheme.onSurfaceVariant,
-        modifier = Modifier.padding(bottom = 14.dp)
-    )
+    // Resumen de progreso del día: antes esta información solo vivía en la
+    // pestaña de Progreso; ahora es lo primero que se ve al abrir la app,
+    // que es justo lo que el usuario quiere saber en los primeros segundos.
+    if (totalHabits > 0) {
+        TodayProgressCard(totalHabits = totalHabits, completedToday = completedToday)
+        Spacer(modifier = Modifier.height(Spacing.lg))
+    }
 }
 
 @Composable
-private fun EmptyState() {
+private fun TodayProgressCard(totalHabits: Int, completedToday: Int) {
+    val progress = if (totalHabits == 0) 0f else completedToday / totalHabits.toFloat()
+    val animatedProgress by animateFloatAsState(targetValue = progress, label = "todayProgress")
+
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(Radius.lg),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
+    ) {
+        Column(modifier = Modifier.padding(Spacing.lg)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.stats_completed_of_total, completedToday, totalHabits),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+                Text(
+                    text = "${(progress * 100).toInt()}%",
+                    style = MaterialTheme.typography.headlineMedium,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+            }
+
+            Spacer(modifier = Modifier.height(Spacing.sm))
+
+            // Barra de progreso propia (no la de Material) para controlar
+            // exactamente grosor y color, consistente con el resto del
+            // sistema visual.
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(8.dp)
+                    .background(
+                        MaterialTheme.colorScheme.onPrimary.copy(alpha = 0.25f),
+                        RoundedCornerShape(Radius.pill)
+                    )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth(animatedProgress.coerceIn(0f, 1f))
+                        .height(8.dp)
+                        .background(MaterialTheme.colorScheme.onPrimary, RoundedCornerShape(Radius.pill))
+                ) {}
+            }
+        }
+    }
+}
+
+@Composable
+private fun EmptyState(onAddHabitClick: () -> Unit) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(Radius.lg)
     ) {
         Column(
-            modifier = Modifier.padding(18.dp)
+            modifier = Modifier.padding(Spacing.xl),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Box(
+                modifier = Modifier
+                    .size(64.dp)
+                    .background(MaterialTheme.colorScheme.primaryContainer, CircleShape),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(text = "🌱", style = MaterialTheme.typography.displaySmall)
+            }
+
             Text(
                 text = stringResource(R.string.empty_state_title),
                 style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = Spacing.lg)
             )
 
             Text(
                 text = stringResource(R.string.empty_state_subtitle),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 6.dp)
+                modifier = Modifier.padding(top = Spacing.xs),
+                textAlign = androidx.compose.ui.text.style.TextAlign.Center
             )
+
+            Button(
+                onClick = onAddHabitClick,
+                shape = RoundedCornerShape(Radius.pill),
+                modifier = Modifier.padding(top = Spacing.lg)
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = null,
+                    modifier = Modifier.size(18.dp)
+                )
+                Text(
+                    text = stringResource(R.string.action_create_habit),
+                    modifier = Modifier.padding(start = 6.dp)
+                )
+            }
         }
     }
 }

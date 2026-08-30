@@ -11,10 +11,16 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
 private val LightHabitusColorScheme = lightColorScheme(
-    primary = PrimaryBlue,
+    primary = BrandPrimary,
     onPrimary = White,
-    secondary = PrimaryGreen,
+    primaryContainer = BrandPrimarySoft,
+    onPrimaryContainer = BrandPrimary,
+
+    secondary = Spark,
     onSecondary = White,
+    secondaryContainer = SparkSoft,
+    onSecondaryContainer = Spark,
+
     tertiary = PrimaryPurple,
     onTertiary = White,
 
@@ -33,10 +39,16 @@ private val LightHabitusColorScheme = lightColorScheme(
 )
 
 private val DarkHabitusColorScheme = darkColorScheme(
-    primary = PrimaryBlueDark,
-    onPrimary = White,
-    secondary = PrimaryGreenDark,
-    onSecondary = White,
+    primary = BrandPrimaryDark,
+    onPrimary = OnBrandPrimaryDark,
+    primaryContainer = BrandPrimarySoftDark,
+    onPrimaryContainer = BrandPrimaryDark,
+
+    secondary = Spark,
+    onSecondary = OnBrandPrimaryDark,
+    secondaryContainer = SparkSoftDark,
+    onSecondaryContainer = Spark,
+
     tertiary = PrimaryPurple,
     onTertiary = White,
 

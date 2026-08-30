@@ -73,6 +73,14 @@
     <string name="notification_title">Recordatorio de hábito</string>
     <string name="notification_text">Es hora de completar: %1$s</string>
 
+
+    <string name="label_icon_category">Categoría</string>
+    <string name="icon_category_fitness">Fitness</string>
+    <string name="icon_category_learning">Aprendizaje</string>
+    <string name="icon_category_wellness">Bienestar</string>
+    <string name="icon_category_creativity">Creatividad</string>
+    <string name="icon_category_home_goals">Hogar y metas</string>
+
     <!-- Plurales: racha (con prefijo, para la pantalla de detalle) -->
     <plurals name="streak_days">
         <item quantity="one">Racha: %d día</item>

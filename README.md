@@ -129,8 +129,8 @@ Este proyecto está bajo licencia MIT — ver [LICENSE](LICENSE).
 
 ## 👩‍💻 Autora
 
-**[TU-NOMBRE]**
+**Noelia HT**
 
-[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/[TU-USUARIO-GITHUB])
-[![Portfolio](https://img.shields.io/badge/Portfolio-000000?logo=googlechrome&logoColor=white)]([TU-URL-GITHUB-PAGES])
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)]([TU-URL-LINKEDIN])
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/Noe-HT)
+[![Portfolio](https://img.shields.io/badge/Portfolio-000000?logo=googlechrome&logoColor=white)](https://noe-ht.github.io/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?logo=linkedin&logoColor=white)](https://www.linkedin.com/in/noelia-ht/)

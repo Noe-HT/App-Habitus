@@ -73,6 +73,14 @@
     <string name="notification_title">Habit reminder</string>
     <string name="notification_text">Time to complete: %1$s</string>
 
+    <string name="label_icon_category">Category</string>
+    <string name="icon_category_fitness">Fitness</string>
+    <string name="icon_category_learning">Learning</string>
+    <string name="icon_category_wellness">Wellness</string>
+    <string name="icon_category_creativity">Creativity</string>
+    <string name="icon_category_home_goals">Home &amp; goals</string>
+
+
     <!-- Plurals: streak (with prefix, detail screen) -->
     <plurals name="streak_days">
         <item quantity="one">Streak: %d day</item>
